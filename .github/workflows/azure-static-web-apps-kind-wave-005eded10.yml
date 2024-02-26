@@ -19,11 +19,22 @@ jobs:
         with:
           submodules: true
           lfs: false
+      
+      - name: Set up Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '18.x'
+      
+      - name: Build and Export
+        run: |
+          npm install
+          npm run build
+          npm run export  # 对于Next.js来说，确保你有一个"export"脚本在你的package.json文件中
+      
       - name: Build And Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
         with:
-          node-version: 18.x
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_KIND_WAVE_005EDED10 }}
           repo_token: ${{ secrets.GITHUB_TOKEN }} # Used for Github integrations (i.e. PR comments)
           action: "upload"
